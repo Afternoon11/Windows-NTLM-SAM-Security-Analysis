@@ -1,51 +1,49 @@
 # Windows NTLM Hash Security Analysis
 
-## Project Overview
+A defensive learning project exploring Windows NTLM password hashes, offline password-audit results, and the importance of protecting credential data.
 
-This project documents a controlled lab exercise about Windows NTLM password hashes, why they matter, and how weak passwords can be exposed by offline password-auditing tools.
+## Objective
 
-The goal is educational and defensive: understand the risk, recognize what an audit result means, and learn how to protect Windows accounts. Only hashes from systems you own or have explicit permission to test belong in a lab.
+Understand why legacy NTLM hashes and weak passwords can create security risks, and how authorized password-strength auditing can help identify weak credentials in a controlled lab.
+
+Only use synthetic test data or hashes from systems you own and are explicitly authorized to assess.
 
 ## Tools and Concepts
 
-- **Kali Linux** — the lab environment shown in the terminal screenshot.
-- **Hashcat** — a password-auditing tool that can test candidate passwords against supported hash formats.
-- **NTLM** — a legacy Windows password-hash format.
-- **Dictionary wordlist** — a collection of candidate strings used during an authorized password-strength audit.
+- **Kali Linux:** The environment shown in the terminal screenshot.
+- **Hashcat:** A password-auditing tool that tests candidate values against supported hash formats.
+- **NTLM:** A legacy Windows password-hash format.
+- **Dictionary wordlist:** Candidate strings used during an authorized audit.
 
-This README describes the workflow at a high level and does not provide instructions for extracting real SAM credentials or cracking hashes taken from other people's devices.
+## Lab Summary
 
-## Lab Workflow (High-Level)
+1. Prepare a controlled lab using synthetic or explicitly authorized test data.
+2. Use a test NTLM digest for a password-strength audit.
+3. Review the Hashcat result and record defensive lessons.
 
-1. **Set up an authorized lab.** Use a virtual machine or test computer that you own, and use synthetic/demo credentials rather than real user passwords.
-2. **Prepare a test hash.** The lab should use a sample NTLM hash created specifically for the exercise. Keep real account hashes and personal data out of screenshots and repositories.
-3. **Run a password-strength audit.** Hashcat can compare the test hash against candidate entries in a wordlist. In the screenshot included below, the terminal shows Hashcat running in NTLM mode with dictionary input.
-4. **Review the result.** The screenshot reports `Status: Cracked` and `Recovered: 1/1`, meaning Hashcat reports that it matched the one digest in that test input. This is evidence of the Hashcat run, not evidence of a SAM extraction.
-5. **Record defensive lessons.** A weak or commonly used password can be vulnerable to offline guessing. Use long, unique passwords, enable multifactor authentication where available, keep systems updated, and restrict access to credential data.
+The screenshot shows Hashcat running in NTLM mode with dictionary input. It reports one digest and a final status of `Cracked`, with `1/1` recovered.
+
+**Evidence limitation:** The screenshot documents the Hashcat result only. It does not show a `samdump2` command, SAM database extraction, or proof of where the input hash originated. This project does not claim that the screenshot proves those steps.
 
 ## Screenshot Evidence
 
-The following screenshot is the Hashcat terminal result supplied for this project.
-
 ![Hashcat NTLM audit result](hashcat-result.webp)
 
-The screenshot shows:
+The visible terminal output includes Hashcat version 7.1.2, hash mode `1000` (NTLM), a dictionary-based run using the `rockyou` wordlist, and one digest reported as recovered.
 
-- Hashcat version 7.1.2 starting in a Kali terminal.
-- Hash mode `1000`, identified by Hashcat as NTLM.
-- A dictionary-based audit using the `rockyou` wordlist.
-- One digest in the input and a final status of `Cracked` with `1/1` recovered.
+## Security Recommendations
 
-**Important limitation:** this screenshot documents the Hashcat result. It does not show a `samdump2` command, the extraction of a Windows SAM database, or proof that the tested hash came from a physical Windows installation.
+- Never publish real NTLM hashes, SAM/SYSTEM files, recovered passwords, or personal account data.
+- Conduct audits only with clear authorization.
+- Treat a recovered password as compromised and change it on the test account.
+- Use long, unique passwords and a password manager.
+- Enable multi-factor authentication wherever available.
+- Restrict access to credential stores and backups.
+- Prefer modern authentication and security controls over legacy NTLM where feasible.
 
-## Security Notes
+## What This Project Demonstrates
 
-- Never publish real NTLM hashes, SAM/SYSTEM files, usernames, machine identifiers, or recovered passwords.
-- Do not run password audits against accounts or devices without clear authorization.
-- Treat a recovered password as compromised: change it immediately on the affected test account and anywhere it was reused.
-- Prefer unique passphrases, a password manager, multifactor authentication, and least-privilege accounts.
-- Organizations should restrict access to credential stores, monitor suspicious access, and use modern Windows security protections.
+Weak passwords can be vulnerable to offline guessing if an attacker obtains a password hash. Password strength, secure credential storage, and access controls are therefore important.
 
-## Conclusion
-
-This exercise demonstrates why NTLM hashes and weak passwords require careful protection. The supplied screenshot records a successful one-digest Hashcat audit, while the broader lesson is to use strong authentication and protect credential stores.
+---
+An educational security project for defensive learning in an authorized lab.
