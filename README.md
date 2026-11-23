@@ -27,7 +27,7 @@ This README describes the workflow at a high level and does not provide instruct
 
 The following screenshot is the Hashcat terminal result supplied for this project.
 
-![Hashcat NTLM audit result](screenshots/hashcat-result.webp)
+hashcat-result.webp
 
 The screenshot shows:
 
