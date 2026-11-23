@@ -47,3 +47,14 @@ Weak passwords can be vulnerable to offline guessing if an attacker obtains a pa
 
 ---
 An educational security project for defensive learning in an authorized lab.
+
+
+## Defensive Audit Workflow
+
+```mermaid
+flowchart TD
+ A[Authorized Lab Data] --> B[Validate Test Hash Source]
+ B --> C[Offline Password-Strength Audit]
+ C --> D[Record Sanitized Result]
+ D --> E[Recommend Strong Unique Passwords & MFA]
+```
